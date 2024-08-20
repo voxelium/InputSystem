@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         _jumpVelocity = 2 * _jumpHeight / takeoffTime;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         ControlCharacter();
         Gravity();
