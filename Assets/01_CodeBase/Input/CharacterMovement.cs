@@ -1,9 +1,12 @@
 
+using GameInput;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class CharacterMovement : MonoBehaviour
 {
+    private JoystickMovement _joystickMovement;
+
     [Header("Movement")]
     private float _moveSpeed = 4f;
     private float _rotateSpeed = 120f;
@@ -19,11 +22,13 @@ public class Player : MonoBehaviour
 
     [Header("Character Component")]
     private CharacterController _characterController;
-    private Vector2 moveValue;
+    public Vector2 moveValue;
 
 
     void Start()
     {
+        _joystickMovement = FindObjectOfType<JoystickMovement>();
+
         _characterController = GetComponent<CharacterController>();
 
         float takeoffTime = _jumpTime / 2;
@@ -31,15 +36,22 @@ public class Player : MonoBehaviour
         _jumpVelocity = 2 * _jumpHeight / takeoffTime;
     }
 
+
     void FixedUpdate()
     {
-        ControlCharacter();
+        Vector2 joystickInput = _joystickMovement.GetInputVector();
+
+        // Если джойстик активен, используем его данные, иначе используем данные из Input Action
+        Vector2 finalMoveValue = joystickInput.magnitude > 0 ? joystickInput : moveValue;
+
+        ControlCharacter(finalMoveValue);
         Gravity();
     }
 
-    private void ControlCharacter()
+
+    private void ControlCharacter(Vector2 input)
     {
-        Vector3 moveDirection = new Vector3(moveValue.x, 0, moveValue.y);
+        Vector3 moveDirection = new Vector3(input.x, 0, input.y);
         MoveCharacter(moveDirection);
         RotateCharacter(moveDirection);
     }
