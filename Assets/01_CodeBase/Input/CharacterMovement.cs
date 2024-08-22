@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 public class CharacterMovement : MonoBehaviour
 {
     private JoystickMovement _joystickMovement;
+    private ButtonJump _buttonJump;
+    private ButtonFire _buttonFire;
+    [SerializeField] private ShootFx _shootFx;
 
     [Header("Movement")]
     private float _moveSpeed = 4f;
@@ -16,8 +19,8 @@ public class CharacterMovement : MonoBehaviour
     private float _gravityForce;
 
     [Header("Jump")]
-    private float _jumpTime = 0.5f;
-    private float _jumpHeight = 3f;
+    [SerializeField] private float _jumpTime = 0.8f;
+    [SerializeField] private float _jumpHeight = 3f;
     private float _jumpVelocity;
 
     [Header("Character Component")]
@@ -28,6 +31,11 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         _joystickMovement = FindObjectOfType<JoystickMovement>();
+        _buttonJump = FindObjectOfType<ButtonJump>();
+        _buttonJump.Constract(this);
+
+        _buttonFire = FindObjectOfType<ButtonFire>();
+        _buttonFire.Constract(this);
 
         _characterController = GetComponent<CharacterController>();
 
@@ -92,6 +100,11 @@ public class CharacterMovement : MonoBehaviour
     //но с добавлением On
     private void OnJump(InputValue inputValue)
     {
+        Jump();
+    }
+
+    public void Jump()
+    {
         if (_characterController.isGrounded)
         {
             charDirection.y = _jumpVelocity;
@@ -103,9 +116,13 @@ public class CharacterMovement : MonoBehaviour
     //но с добавлением On
     private void OnFire(InputValue inputValue)
     {
-        Debug.LogWarning("FIRE");
+        Fire();
     }
 
+    public void Fire()
+    {
+        _shootFx.Shoot();
+    }
 
     private void Gravity()
     {

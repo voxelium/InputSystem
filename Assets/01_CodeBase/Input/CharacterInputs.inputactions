@@ -1,5 +1,5 @@
 {
-    "name": "Player_Inputs",
+    "name": "CharacterInputs",
     "maps": [
         {
             "name": "GameInputs",
@@ -192,6 +192,17 @@
                     "name": "",
                     "id": "2f19e9df-608e-4781-88e5-689fbc2171cc",
                     "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "07f9cd29-fa1e-4136-9024-2af5ede4f0c1",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
