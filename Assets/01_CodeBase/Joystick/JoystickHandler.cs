@@ -8,8 +8,8 @@ namespace GameInput
     public abstract class JoystickHandler : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private Image _joystickBackground;
-        [SerializeField] private Image _joystick;
-        [SerializeField] private Image _joystickArea;
+        [SerializeField] private Image _thumb;
+        [SerializeField] private RectTransform _joystickArea;
 
         // private Vector2 _joystickBackgroundStartPosition;
         protected Vector2 _inputVector;
@@ -31,7 +31,7 @@ namespace GameInput
 
         private void ClickEffect()
         {
-            _joystick.color = IsActive ? _activeColor : _inactiveColor;
+            _thumb.color = IsActive ? _activeColor : _inactiveColor;
             _joystickBackground.color = IsActive ? _activeColor : _inactiveColor;
         }
 
@@ -42,7 +42,7 @@ namespace GameInput
 
             Vector2 joystickBackgroundPosition;
 
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_joystickArea.rectTransform, eventData.position, null, out joystickBackgroundPosition))
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_joystickArea, eventData.position, null, out joystickBackgroundPosition))
             {
                 _joystickBackground.rectTransform.anchoredPosition = new Vector2(joystickBackgroundPosition.x, joystickBackgroundPosition.y);
             }
@@ -61,7 +61,7 @@ namespace GameInput
                 _inputVector = new Vector2(joystickPosition.x, joystickPosition.y);
 
                 _inputVector = (_inputVector.magnitude > 1f) ? _inputVector.normalized : _inputVector;
-                _joystick.rectTransform.anchoredPosition = new Vector2(_inputVector.x * (_joystickBackground.rectTransform.sizeDelta.x / 2), _inputVector.y * (_joystickBackground.rectTransform.sizeDelta.y / 2));
+                _thumb.rectTransform.anchoredPosition = new Vector2(_inputVector.x * (_joystickBackground.rectTransform.sizeDelta.x / 2), _inputVector.y * (_joystickBackground.rectTransform.sizeDelta.y / 2));
             }
         }
 
@@ -77,7 +77,7 @@ namespace GameInput
                 _inputVector += deltaMovement;
                 _inputVector = (_inputVector.magnitude > 1f) ? _inputVector.normalized : _inputVector;
 
-                _joystick.rectTransform.anchoredPosition = new Vector2(_inputVector.x * (_joystickBackground.rectTransform.sizeDelta.x / 2), _inputVector.y * (_joystickBackground.rectTransform.sizeDelta.y / 2));
+                _thumb.rectTransform.anchoredPosition = new Vector2(_inputVector.x * (_joystickBackground.rectTransform.sizeDelta.x / 2), _inputVector.y * (_joystickBackground.rectTransform.sizeDelta.y / 2));
             }
         }
 
@@ -85,7 +85,7 @@ namespace GameInput
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _joystick.rectTransform.anchoredPosition = Vector2.zero;
+            _thumb.rectTransform.anchoredPosition = Vector2.zero;
             _inputVector = Vector2.zero;
 
             // _joystickBackground.rectTransform.anchoredPosition = _joystickBackgroundStartPosition;

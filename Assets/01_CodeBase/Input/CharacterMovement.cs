@@ -98,6 +98,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+
     //Название этого метода должно быть таким же как событие в InputActions, 
     //но с добавлением On
     private void OnFire(InputValue inputValue)
