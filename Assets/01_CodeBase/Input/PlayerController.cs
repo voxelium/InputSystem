@@ -3,11 +3,11 @@ using GameInput;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CharacterMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private JoystickMovement _joystickMovement;
     private ButtonJump _buttonJump;
-    private ButtonFire _buttonFire;
+    private ButtonAttack _buttonFire;
     [SerializeField] private ShootFx _shootFx;
 
     [Header("Movement")]
@@ -34,7 +34,7 @@ public class CharacterMovement : MonoBehaviour
         _buttonJump = FindObjectOfType<ButtonJump>();
         _buttonJump.Constract(this);
 
-        _buttonFire = FindObjectOfType<ButtonFire>();
+        _buttonFire = FindObjectOfType<ButtonAttack>();
         _buttonFire.Constract(this);
 
         _characterController = GetComponent<CharacterController>();
@@ -114,12 +114,12 @@ public class CharacterMovement : MonoBehaviour
 
     //Название этого метода должно быть таким же как событие в InputActions, 
     //но с добавлением On
-    private void OnFire(InputValue inputValue)
+    private void OnAttack(InputValue inputValue)
     {
-        Fire();
+        Attack();
     }
 
-    public void Fire()
+    public void Attack()
     {
         _shootFx.Shoot();
     }
